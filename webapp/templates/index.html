@@ -24,11 +24,25 @@
 
             <h3 class="mt-3">View your Lifted messages!</h3>
 
-            <p>Couldn't pick up your Lifted message? Got an eLifted message? Sign in with your Cornell NetID to view all Lifted
+            <p>Couldn't pick up your Lifted message? Got an eLifted message? Sign in with your Cornell NetID to view all
+                Lifted
                 messages ever sent to you!</p>
 
             {% if current_user.is_authenticated %}
-            <p>You are signed in as {{ current_user.id }}@cornell.edu</p>
+            <p>Hi, {{ current_user.name }}! You are signed in as {{ current_user.id }}@cornell.edu</p>
+
+            {% for year in cards %}
+            <h4>{{ year_names[loop.index0] }}</h4>
+            <p>
+                {% if year == 0 %}
+                You did not receive any Lifted messages.
+                {% else %}
+                You received {{ year }} Lifted message{% if year > 1 %}s{% endif %}!
+                {% endif %}
+            </p>
+
+            {% endfor %}
+
             {% else %}
             <form action="/saml/sso">
                 <button type="submit" class="btn btn-danger mb-3">Sign In with Cornell NetID</button>
