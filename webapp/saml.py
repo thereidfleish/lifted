@@ -55,7 +55,7 @@ def _get_client(metadata, allow_unknown_attributes=True):
                 # sense in a situation where you control both the SP and IdP
                 'authn_requests_signed': False,
                 'logout_requests_signed': True,
-                'want_assertions_signed': True,
+                'want_assertions_signed': False,
                 'want_response_signed': False,
             },
         },
@@ -175,11 +175,13 @@ def login(saml_client):
 def login_acs(saml_client):
     if 'SAMLResponse' in flask.request.form:
         log.debug('Received SAMLResponse for login')
+        print("HERE")
         try:
             authn_response = saml_client.parse_authn_request_response(
                 flask.request.form['SAMLResponse'],
                 saml2.entity.BINDING_HTTP_POST,
             )
+            print("HERE2")
             if authn_response is None:
                 raise RuntimeError('Unknown SAML error, please check logs')
         except Exception as exc:

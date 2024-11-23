@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Cornell Lifted</title>
+    <link rel="stylesheet" type="text/css" href="/static/styles/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/static/styles/site.css" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/site.webmanifest">
+</head>
+
+<body>
+    <div class="container-fluid">
+
+        <main>
+            <div class="parent">
+                <img class="mx-auto d-block" src="/static/images/logo.png" width="300" alt="Cornell Lifted Logo" />
+            </div>
+
+            <h3 class="mt-3">View your Lifted messages!</h3>
+
+            <p>Couldn't pick up your Lifted message? Got an eLifted message? Sign in with your Cornell NetID to view all Lifted
+                messages ever sent to you!</p>
+
+            {% if current_user.is_authenticated %}
+            <p>You are signed in as {{ current_user.id }}@cornell.edu</p>
+            {% else %}
+            <form action="/saml/sso">
+                <button type="submit" class="btn btn-danger mb-3">Sign In with Cornell NetID</button>
+            </form>
+            {% endif %}
+
+            <p>Received a Lifted message at a non-Cornell email? Having trouble signing in? Missing messages? Send us an
+                email at <a href="mailto:lifted@cornell.edu">lifted@cornell.edu</a> and we'll help you find your
+                messages!</p>
+
+            <h6>Here's a tip!</h6>
+            <p>The cards are 5 in. x 7 in. If you'd like to print a card of that size to mimic your actual card, either
+                print with 100% size on normal paper and cut it out, or insert a 5 x 7 card into your printer!</p>
+
+
+        </main>
+
+        <footer>
+            <div class="container-fluid text-center">
+                <div class="row justify-content-center">
+                    <div class="col-md">
+                        <p class="float-md-start">© 2024 Lifted at Cornell</p>
+                    </div>
+                    <div class="col-md">
+                        <a class="float-md-end" href="https://www.instagram.com/cornelllifted" target="_blank">
+                            <img class="" src="/static/images/ig.png" width="30" height="30" alt="Instagram Logo">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <!-- <div class="col-md">
+                        <p class="float-md-start"><a href="https://server.reidf.net/system-status/">System Status</a></p>
+                    </div> -->
+                    <div class="col-md">
+                    </div>
+                </div>
+                <p class="mt-2">This organization is a registered student organization of Cornell University.</p>
+            </div>
+        </footer>
+    </div>
+
+
+    <!-- <script src="scripts/jquery-3.6.2.min.js"></script> -->
+    <script src="/scripts/bootstrap.bundle.min.js"></script>
+    <script src="/scripts/find.js"></script>
+
+    <!-- Default Statcounter code for Lifted
+http://cornelllifted.com -->
+    <script type="text/javascript">
+        var sc_project = 12997088;
+        var sc_invisible = 1;
+        var sc_security = "4f1c008c"; 
+    </script>
+    <script type="text/javascript" src="https://www.statcounter.com/counter/counter.js" async></script>
+    <noscript>
+        <div class="statcounter"><a title="Web Analytics
+    Made Easy - Statcounter" href="https://statcounter.com/" target="_blank"><img class="statcounter"
+                    src="https://c.statcounter.com/12997088/0/4f1c008c/1/" alt="Web Analytics Made Easy - Statcounter"
+                    referrerPolicy="no-referrer-when-downgrade"></a></div>
+    </noscript>
+    <!-- End of Statcounter Code -->
+</body>
+
+</html>

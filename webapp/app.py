@@ -1,5 +1,11 @@
 import flask
 import saml
+from flask_login import LoginManager
+from flask_login import UserMixin, login_user
+
+import pandas as pd
+
+login_manager = LoginManager()
 
 app = flask.Flask(__name__)
 
@@ -7,13 +13,48 @@ app.config.update({
     'SECRET_KEY': 'soverysecret',
     'SAML_METADATA_URL': 'https://shibidp-test.cit.cornell.edu/idp/shibboleth',
 })
+
 saml.FlaskSAML(app)
+login_manager.init_app(app)
+
+class User(UserMixin):
+    def __init__(self, name, id, active=True):
+        self.name = name
+        self.id = id
+        self.active = active
+
+    def is_active(self):
+        # Here you should write whatever the code is
+        # that checks the database if your user is active
+        return self.active
+
+    def is_anonymous(self):
+        return False
+
+    def is_authenticated(self):
+        return True
+
+@login_manager.user_loader
+def load_user(user_id):
+    # db = pd.read_csv("db.csv")
+    user = User(name="unknown", id=user_id)
+    return user
+
+@saml.saml_authenticated.connect_via(app)
+def on_saml_authenticated(sender, subject, attributes, auth):
+    user = User(name=attributes["displayName"], id=attributes["uid"][0])
+    login_user(user)
+
+@app.route("/")
+def hello_world():
+    return flask.render_template('index.html')
+
 
 # import base64
 # import logging
 # import os
 # import urllib
-# import uuid
+# import uui
 # import zlib
 
 # from flask import Flask
