@@ -31,17 +31,36 @@
             {% if current_user.is_authenticated %}
             <p>Hi, {{ current_user.name }}! You are signed in as {{ current_user.id }}@cornell.edu</p>
 
-            {% for year in cards %}
-            <h4>{{ year_names[loop.index0] }}</h4>
-            <p>
-                {% if year == 0 %}
-                You did not receive any Lifted messages.
+            {% for sem in sem_shortname %}
+            
+            <h4>
+                {% if "sp" in sem %}Spring{% else %}Fall{% endif %} 20{{ sem.split("_")[2] }}{% if "e" in sem %} (eLifted){% endif %}
+            </h4>
+            
+
+            <p class="{{'mb-0' if num_cards[loop.index0] != 0 }}">
+                {% if num_cards[loop.index0] == 0 %}
+                You did not receive any {% if "e" in sem %}e{% else %}physical {% endif %}Lifted messages.
                 {% else %}
-                You received {{ year }} Lifted message{% if year > 1 %}s{% endif %}!
+                You received {{ num_cards[loop.index0] }} {% if "e" in sem %}e{% else %}physical {% endif %}Lifted
+                message{% if num_cards[loop.index0] > 1 %}s{% endif %}!
+                <!-- <a href="/get-pdf/{{ sem_shortname[loop.index0] }}/{{ current_user.id }}" target="_blank">Link</a> -->
                 {% endif %}
             </p>
 
+            {% for i in range(num_cards[loop.index0]) %}
+            <!-- <h1 class="d-inline mx-2">💌</h1> -->
+            <a class="pt-0 me-3" href="/get-pdf/{{ sem_shortname[loop.index0] }}/{{ i }}" target="_blank">
+                <img class="mb-3" src="/static/images/mail-with-heart.png" alt="Girl in a jacket" width="75">
+            </a>
+
             {% endfor %}
+
+            {% endfor %}
+
+            <h4>Spring 2017 and Spring 2016</h4>
+            <p>Please send us an email to access your messages from Spring 2017 and Spring 2016. We'll try our best to
+                find them!</p>
 
             {% else %}
             <form action="/saml/sso">
@@ -57,6 +76,8 @@
             <p>The cards are 5 in. x 7 in. If you'd like to print a card of that size to mimic your actual card, either
                 print with 100% size on normal paper and cut it out, or insert a 5 x 7 card into your printer!</p>
 
+            <h3 class="mt-3">About Lifted</h3>
+            <p>Created by <a href="https://www.zachpraiss.com/projects/lifted.php">Zach Praiss</a> in Spring 2016.</p>
 
         </main>
 
